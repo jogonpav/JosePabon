@@ -1,10 +1,9 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ReleaseDateValidator } from 'src/app/shared/validators/product.validators';
 import { Product } from '../product.interface';
-import { DatashareService } from '../services/datashare.service';
+import { ProductsServices } from '../services/product-service/products-services.service';
 
 
 @Component({
@@ -17,33 +16,38 @@ export class FormProductComponent {
   @Input() productData!: Product;
   @Input() editMode: boolean = false;
   @Output() onSubmitEvent = new EventEmitter<Product>();
+  public myForm: FormGroup;
 
-  public myForm: FormGroup = this.fb.group({
-    id: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
-    description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
-    date_release: ['', [Validators.required, ReleaseDateValidator]],
-    name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-    logo: ['', [Validators.required]],
-    date_revision: ['', [Validators.required]]
-  });
 
   dateRevisionValue: any;
 
   constructor(
     private fb: FormBuilder,
     private datePipe: DatePipe,
-    private router: Router,
-  ) { }
+    private productsSevice: ProductsServices
+  ) {
+    this.myForm = this.fb.group({
+      id: ['',
+        {
+          validators: [Validators.required, Validators.minLength(3), Validators.maxLength(10)],
+          asyncValidators: [this.verifyProductId.bind(this)],
+          updateOn: 'blur'
+        }],
+      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
+      date_release: ['', [Validators.required, ReleaseDateValidator]],
+      name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      logo: ['', [Validators.required]],
+      date_revision: ['', [Validators.required]]       
+    });
+  }
 
 
   ngOnInit(): void {
     this.myForm.get('date_release')?.valueChanges.subscribe(date => {
       if (!this.myForm.controls['date_release'].errors) {
-        console.log("por acar")
         this.handlerevisionDate(this.convertReleaseDate(date));
       }
     })
-    console.log(this.editMode)
 
     this.editMode && this.setValueForm();
 
@@ -58,8 +62,6 @@ export class FormProductComponent {
       date_release: this.productData.date_release.substring(0, 10),
       date_revision: this.productData.date_revision.substring(0, 10),
     })
-
-    console.log(this.myForm)
   }
 
   onSubmit() {
@@ -73,9 +75,8 @@ export class FormProductComponent {
     this.onSubmitEvent.emit(this.myForm.value);
   }
 
-
   onReset() {
-    if(this.editMode){
+    if (this.editMode) {
       alert("No puedes usar Reset al editar un producto")
       return
     }
@@ -88,7 +89,6 @@ export class FormProductComponent {
     let months = parseInt(date.substring(5, 7))
     let days = parseInt(date.substring(8, 10))
     let convertedReleaseDate = new Date(year, months, days);
-    console.log(convertedReleaseDate)
     return convertedReleaseDate;
   }
 
@@ -96,7 +96,6 @@ export class FormProductComponent {
     ReleaseDate.setFullYear(ReleaseDate.getFullYear() + 1)
     const convertedRevisionDate = this.datePipe.transform(new Date(ReleaseDate), 'yyyy-MM-dd')
     this.dateRevisionValue = convertedRevisionDate;
-    console.log(convertedRevisionDate)
     return convertedRevisionDate;
   }
 
@@ -117,8 +116,29 @@ export class FormProductComponent {
           return `Máximo ${errors['maxlength'].requiredLength} caratacteres.`;
         case 'releaseDateInvalid':
           return 'La fecha de liberación debe ser mayor o igual a la fecha actual';
+        case 'productIdExist':
+          return 'Id existente';
       }
     }
     return null
   }
+
+  verifyProductId(control: AbstractControl): Promise<ValidationErrors | null> {
+    const productId = control.value as string;
+    if (!productId) {
+      return Promise.resolve(null);
+    }  
+    return new Promise((resolve, reject) => {
+      this.productsSevice.isProductExist(productId).subscribe(
+        (exists) => {
+          if (exists) {
+            resolve({'productIdExist': true });
+          } else {
+            resolve(null);
+          }
+        });
+    });
+  }
+ 
+
 }

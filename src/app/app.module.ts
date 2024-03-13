@@ -7,11 +7,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ReleaseDateValidator } from './shared/validators/product.validators';
-import { EditComponent } from './products/edit/edit.component';
-import { FormProductComponent } from './products/form-product/form-product.component';
-import { Create2Component } from './products/create2/create2.component';
 import { ModalComponent } from './shared/modal/modal.component';
 import { HeaderComponent } from './shared/header/header.component';
+import { EditComponent } from './products/edit/edit.component';
+import { CreateComponent } from './products/create2/create.component';
+import { FormProductComponent } from './products/form-product/form-product.component';
+import { DatashareService } from './products/services/datasshare/datashare.service';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { HeaderComponent } from './shared/header/header.component';
     ModalComponent,
     EditComponent,
     FormProductComponent,
-    Create2Component,
+    CreateComponent,
     HeaderComponent
 
   ],
@@ -32,7 +33,9 @@ import { HeaderComponent } from './shared/header/header.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [{ provide: 'ReleaseDateValidator', useValue: ReleaseDateValidator }, DatePipe,],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: 'ReleaseDateValidator', useValue: ReleaseDateValidator }, 
+    DatePipe],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

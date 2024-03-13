@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Product } from '../product.interface';
-import { DatashareService } from '../services/datashare.service';
-import { ProductsServices } from '../services/products-services.service';
+import { DatashareService } from '../services/datasshare/datashare.service';
+import { ProductsServices } from '../services/product-service/products-services.service';
 
 @Component({
   selector: 'app-edit',
@@ -18,7 +18,6 @@ export class EditComponent {
 
   constructor(
     private poductsSevice: ProductsServices,
-    private datePipe: DatePipe,
     private router: Router,
     private dataShareService: DatashareService) {
     this.dataShareService.productData$.subscribe((data: Product) => {

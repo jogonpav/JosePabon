@@ -14,7 +14,6 @@ export class ModalComponent implements OnInit {
   @Output() confirmed = new EventEmitter<boolean>();
 
   ngOnInit(): void {
-    console.log(this.sentData)
   }
 
   closeModal() {

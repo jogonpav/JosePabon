@@ -1,8 +1,8 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Product } from '../product.interface';
-import { DatashareService } from '../services/datashare.service';
-import { ProductsServices } from '../services/products-services.service';
+import { DatashareService } from '../services/datasshare/datashare.service';
+import { ProductsServices } from '../services/product-service/products-services.service';
 
 @Component({
   selector: 'app-product-list',
@@ -17,15 +17,16 @@ export class ProductListComponent implements OnInit {
   pageSize = 5;
   allProducts: Product[] = [];
   productsToShow: Product[] = [];
+  filteredProducts: Product[] = []
 
   modalOpen: boolean = false;
   deleteDataId: string = '';
 
-  menuSytle: any = {
+  menuStyle: any = {
     'display:': 'none'
   }
   productRecord!: Product;
-  activeDrodow = false;
+  activeDropdown = false;
 
 
 /*   @ViewChild('iconEditDropDown') iconEditDropDown!: ElementRef;
@@ -39,24 +40,30 @@ export class ProductListComponent implements OnInit {
     private dataShareService: DatashareService
     ) {
     this.renderer.listen('window', 'click', (e: Event ) => {
-      const element = e.target as HTMLDivElement
+      this.handleWindowClickEvent(e);
+      /* const element = e.target as HTMLDivElement
       const classes = element.classList
-      console.log(classes)
 
-      if(element.classList[0] !== 'icon-edit' && this.activeDrodow){
-        console.log('es diferente')
+      if(element.classList[0] !== 'icon-edit' && this.activeDropdown){
         this.closeMenu();
-        this.activeDrodow = false;
-      }
-    })
+        this.activeDropdown = false;
+      } */
+    }) 
+
+  /*   this.renderer.listen('window', 'click', (event: Event ) => {
+      this.handleWindowClickEvent(event);
+    }) */
   }
 
   ngOnInit(): void {
     this.loadProducts();
+    this.renderer.listen('window', 'click', (event: Event ) => {
+      this.handleWindowClickEvent(event);
+    })
   }
 
   onSearch() {
-    this.currentPage = 1; // Reiniciar a la primera página al buscar
+    this.currentPage = 1;
     this.applyFilters();
   }
 
@@ -73,15 +80,13 @@ export class ProductListComponent implements OnInit {
   applyFilters() {
     let filteredProducts = [...this.allProducts];
 
-    // Apply search
     if (this.searchProduct) {
       filteredProducts = filteredProducts.filter(product =>
         product.name.toLowerCase().includes(this.searchProduct.toLowerCase())
       );
     }
-    // Apply pagination
+
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    console.log("startIndex " + startIndex)
     this.productsToShow = filteredProducts.slice(startIndex, startIndex + this.pageSize);
   }
 
@@ -99,7 +104,7 @@ export class ProductListComponent implements OnInit {
 
   onPageSizeChange(event: any) {
     const selectedPageSize = event.target.value;
-    this.currentPage = 1; // Reiniciar a la primera página al cambiar el tamaño de la página
+    this.currentPage = 1; 
     this.pageSize = selectedPageSize;
     this.applyFilters();
   }
@@ -115,11 +120,9 @@ export class ProductListComponent implements OnInit {
 
   toggleDropdown(event: any, product: Product) {
 
-    console.log(event)
+    this.activeDropdown = true;
 
-    this.activeDrodow = true;
-
-    this.menuSytle = {
+    this.menuStyle = {
       'display': 'block',
       'position': 'absolute',
       'left.px': event.clientX -70 + document.documentElement.scrollLeft,
@@ -129,21 +132,18 @@ export class ProductListComponent implements OnInit {
   }
 
   closeMenu() {
-    this.menuSytle = {
-      'display:': 'none'
+    this.menuStyle = {
+      'display': 'none'
     }
   }
 
   editProduct() {
-    // Lógica para editar el ítem
-    console.log('seleccionado el elemento para editar ')
-    console.log(this.productRecord)
-    this.dataShareService.setDatosEditar(this.productRecord);
+    this.dataShareService.setEditData(this.productRecord);
     this.router.navigate(['/', 'edit-product'])
     this.closeMenu()
   }
 
-  deleteProduct(){
+  deleteProductOption(){
     this.deleteDataId = this.productRecord.id;
     this.closeMenu();
     this.openModal();
@@ -158,15 +158,23 @@ export class ProductListComponent implements OnInit {
   }
 
   modalConfirmed() {
-    this.deteleProduct();
+    this.deleteProduct();
   }
 
-  deteleProduct(){
-    this.productsSevice.deleteProduct(this.deleteDataId).subscribe((data)=>{
-      this.loadProducts()
-    },(error) => {
-      console.error('Error al eliminar el producto:', error);
+  deleteProduct(){
+    this.productsSevice.deleteProduct(this.deleteDataId).subscribe({
+      next: ()=>this.loadProducts(),
+      error: (error)=> console.error('Error al eliminar el producto:', error)
     });
+  }
+
+  handleWindowClickEvent(event: Event) {
+    const element = event.target as HTMLDivElement;
+    
+    if (element.classList[0] !== 'icon-edit' && this.activeDropdown) {
+      this.closeMenu();
+      this.activeDropdown = false;
+    }
   }
 
 }
