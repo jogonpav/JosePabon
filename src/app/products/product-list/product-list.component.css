@@ -1,0 +1,171 @@
+.container {
+    padding: 60px 30px 30px 30px;
+    background-color: #f5f6fa;
+    position:relative;
+}
+
+.search-country{
+    width: 190px;
+    height: 35px;
+    border: 2px solid #dcdddf;
+    border-radius: 10px;
+}
+.btn-create-product {
+    width: 80px;
+    height: 46px;
+    border: none;
+    background-color: #edd762;
+    border-radius: 5px;
+    color: #414244;
+    font-weight: bold;
+    position: absolute;
+    top: 55px;
+    right: 30px;
+}
+
+button:hover {
+    background-color: #acacb0;
+    cursor: pointer;
+}
+
+.container-table-pagination{
+    padding: 20px 20px 40px 20px;
+    background-color: white;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.container-table-product{
+    margin-bottom: 10px;
+
+}
+
+.table-products {
+    width: 100%;
+    border-collapse: collapse;
+    color: #414244;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+th, td {
+    height: 50px;
+    border-bottom: 2px solid #f0f1f3;
+}
+
+.table-products th{
+    background-color: #f5f6fa;
+}
+
+.table-products td, .container-number-results,.container-pagination {
+    font-weight: bold;
+    color: #5c5c5e;
+}
+
+.logo-product{
+    width: 50px;
+    height: 30px;
+}
+.option-edit{
+    width: 50px;
+    margin: auto;
+}
+.icon-edit{
+    transform: rotate(90deg);
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* horizontal scroll bar Styles*/
+.container-table-product::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.container-table-product::-webkit-scrollbar {
+    height: 8px;
+}
+.container-table-product::-webkit-scrollbar-track {
+    background: #ebecf0; /* Color de fondo de la pista */
+}
+.container-table-product::-webkit-scrollbar-thumb {
+    background: #706f77; /* Color del pulgar */
+    border-radius: 5px; /* Radio de borde del pulgar */
+}
+
+.container-table-product + hr {
+    display: none
+}
+
+.container-number-results{
+    display: flex;
+    justify-content: space-between;
+}
+
+.container-pagination {
+    display: flex;
+    justify-content: end;
+}
+
+.container-pagination div button {
+    margin-left: 5px;
+}
+
+.activeButton {
+    background-color: rgb(167, 164, 164);
+}
+
+.container-number-results {
+    margin-bottom: 10px;
+}
+.container-number-results select{
+    width: 72px;
+    height: 27px;
+    border: 2px solid #dcdddf;
+    border-radius: 5px;
+    text-align: center;
+}
+
+@media (max-width: 800px){
+    .container {
+        padding-left: 30px;
+    }
+    .container-table-product{
+        overflow-x: scroll;
+    }
+    
+    .table-products {
+        min-width: 750px;
+    }
+    .container-table-product + hr {
+        border: 1px solid #f0f1f3;
+    }
+    
+}
+
+
+/*Dropdown menu*/
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 5px 0;
+  }
+
+  .dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .dropdown-menu ul li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu ul li:hover {
+    background-color:  rgb(167, 164, 164)
+  }
+

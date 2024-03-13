@@ -1,0 +1,10 @@
+<div class="modal" [ngClass]="{'open': isOpen}">
+    <div class="modal-content">
+      <p class="modalTextContent">¿Estás seguro de eliminar el producto {{sentData}}?</p>
+      <hr>
+      <div class="modal-actions">
+        <button class="button-cancel" (click)="cancel()">Cancelar</button>
+        <button class="button-confirm" (click)="confirm()">Confirmar</button>
+      </div>
+    </div>
+  </div>

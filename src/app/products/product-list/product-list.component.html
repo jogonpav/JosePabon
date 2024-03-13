@@ -1,0 +1,81 @@
+<div class="container">
+  <div>
+    <input
+      class="search-country"
+      type="text"
+      placeholder="search..."
+      [(ngModel)]="searchProduct"
+      (keyup.enter)="onSearch()"
+    />
+  </div>
+  <button class="btn-create-product" [routerLink]="['/', 'create-product']">
+    Agregar
+  </button>
+  <div class="container-table-pagination">
+    <div class="container-table-product">
+      <table class="table-products">
+        <tr>
+          <th>Logo</th>
+          <th>Nombre del producto</th>
+          <th>Descripción</th>
+          <th>Fecha de libreración</th>
+          <th>Fecha de reestructuración</th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let product of productsToShow">
+          <td><img class="logo-product" [src]="product.logo" alt="" /></td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.description + " " + product.id }}</td>
+          <td>{{ product.date_release | date : "dd/MM/yyyy" }}</td>
+          <td>{{ product.date_revision | date : "dd/MM/yyyy" }}</td>
+          <td class="option-edit">
+            <div class="icon-edit" (click)="toggleDropdown($event, product)">
+              ...
+            </div>
+            <div
+              class="dropdown-menu"
+              [ngStyle]="menuSytle"
+              (click)="closeMenu()"
+            >
+              <ul>
+                <li (click)="editProduct()">Editar</li>
+                <li (click)="deleteProduct()">Eliminar</li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <hr />
+    <div class="container-number-results">
+      <span>{{
+        allProducts.length > 1
+          ? allProducts.length + " Resultados"
+          : allProducts.length + " Resultado"
+      }}</span>
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange($event)">
+        <option *ngFor="let option of pageSizeOptions" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+    </div>
+    <div class="container-pagination">
+      <span>paginas</span>
+      <div class="button-pagination" *ngFor="let page of totalPages">
+        <button
+          (click)="selectPage(page)"
+          [ngClass]="{ activeButton: currentPage === page }"
+        >
+          {{ page }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-modal
+  [sentData]="deleteDataId"
+  [isOpen]="modalOpen"
+  (closed)="modalClosed()"
+  (confirmed)="modalConfirmed()"
+  *ngIf="modalOpen"
+></app-modal>

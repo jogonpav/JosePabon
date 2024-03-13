@@ -1,0 +1,26 @@
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+}
+
+.icon-logo{
+    background: url(../../../assets/icons/icon-logo-bank.png) no-repeat center;
+    width: 35px;
+    height: 44px;
+}
+
+.bank-name{
+    margin-left: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #232f57;
+}

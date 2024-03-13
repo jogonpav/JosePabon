@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="form-container">
+    <div class="form-header"><p>Formulario de Registro</p></div>
+    <hr />
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <div class="form-colum">
+        <div class="form-field">
+          <label [ngClass]="{'disable-label': editMode}">
+            ID
+            <input [ngClass]="{'disable-input': editMode}" formControlName="id" placeholder="ID product" [readonly]="editMode" />
+          </label>
+          <span class="error-message" *ngIf="isNotValidFiel('id')">
+            {{ getFieldError("id") }}
+          </span>
+        </div>
+        <div class="form-field">
+          <label>
+            Nombre
+            <input formControlName="name" placeholder="Product name" />
+          </label>
+          <span class="error-message" *ngIf="isNotValidFiel('name')">
+            {{ getFieldError("name") }}
+          </span>
+        </div>
+        <div class="form-field">
+          <label>
+            Descripción
+            <input
+              formControlName="description"
+              placeholder="Product description"
+            />
+          </label>
+          <span class="error-message" *ngIf="isNotValidFiel('description')">
+            {{ getFieldError("description") }}
+          </span>
+        </div>
+        <div class="form-field">
+          <label>
+            Logo
+            <input formControlName="logo" placeholder="Logo product" />
+          </label>
+          <span class="error-message" *ngIf="isNotValidFiel('logo')">
+            {{ getFieldError("logo") }}
+          </span>
+        </div>
+        <div class="form-field">
+          <label>
+            Fecha Liberación
+            <input
+              type="date"
+              formControlName="date_release"
+              placeholder="22/02/2023"
+            />
+          </label>
+          <span class="error-message" *ngIf="isNotValidFiel('date_release')">
+            {{ getFieldError("date_release") }}
+          </span>
+        </div>
+        <div class="form-field">
+          <label class="disable-label">
+            Fecha Revisión
+            <input
+              class="disable-input"
+              type="date"
+              formControlName="date_revision"
+              placeholder="date revision"
+              [readonly]="true"
+              [value]="dateRevisionValue"
+            />
+          </label>
+        </div>
+      </div>
+
+      <div class="container-form-button">
+        <button type="button" (click)="onReset()">Reiniciar</button>
+        <button type="submit" class="button-confirm">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
