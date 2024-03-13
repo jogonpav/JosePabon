@@ -35,9 +35,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## DEMO
 
+[demo 2](https://github.com/jogonpav/JosePabon/assets/30030782/e6483344-606f-4927-b7dd-19e192b1269f)
+
 [demo 1](https://github.com/jogonpav/JosePabon/assets/30030782/e9755e7d-4a4a-4cfa-8cde-3be430a77502)
 
-[demo 2](https://github.com/jogonpav/JosePabon/assets/30030782/e6483344-606f-4927-b7dd-19e192b1269f)
+
 
 
 
