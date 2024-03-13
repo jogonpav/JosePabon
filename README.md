@@ -2,6 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.1.
 
+## Install project
+
+Run npm install
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
@@ -28,6 +32,11 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## DEMO
+
+[demo app_edit_0_edit_1.webm](https://github.com/jogonpav/JosePabon/assets/30030782/e9755e7d-4a4a-4cfa-8cde-3be430a77502)
+[demo app_edit_0_edit_0.webm](https://github.com/jogonpav/JosePabon/assets/30030782/e6483344-606f-4927-b7dd-19e192b1269f)
 
 
 
